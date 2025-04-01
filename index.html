@@ -21,20 +21,37 @@ def calculer_rapport():
 fenetre = tk.Tk()
 fenetre.title("Calculateur TfRs/log(ferritine)")
 
+# Sous-titre
+sous_titre = tk.Label(fenetre, text="Vous voulez estimer la probabilité de carence martiale ou d'anémie inflammatoire en cas d'anémie avec FS bas et d'inflammation. "
+                                    "Vous devez avoir à votre disposition le taux de TfRs en mg/L et de ferritine en µg/L.")
+sous_titre.pack(pady=10, padx=10)
+
 # Création des widgets
-label_tfrs = tk.Label(fenetre, text="TfRs (mg/L):")
-label_tfrs.pack(pady=5)
+frame_tfrs = tk.Frame(fenetre)
+frame_tfrs.pack(pady=5)
 
-entry_tfrs = tk.Entry(fenetre)
-entry_tfrs.pack(pady=5)
+label_tfrs = tk.Label(frame_tfrs, text="TfRs")
+label_tfrs.pack(side=tk.LEFT, padx=5)
 
-label_ferritine = tk.Label(fenetre, text="Ferritine (µg/L):")
-label_ferritine.pack(pady=5)
+entry_tfrs = tk.Entry(frame_tfrs)
+entry_tfrs.pack(side=tk.LEFT, padx=5)
 
-entry_ferritine = tk.Entry(fenetre)
-entry_ferritine.pack(pady=5)
+label_tfrs_unit = tk.Label(frame_tfrs, text="mg/L")
+label_tfrs_unit.pack(side=tk.LEFT, padx=5)
 
-bouton_calculer = tk.Button(fenetre, text="Calculer le TfRs/log(ferritine)", command=calculer_rapport)
+frame_ferritine = tk.Frame(fenetre)
+frame_ferritine.pack(pady=5)
+
+label_ferritine = tk.Label(frame_ferritine, text="Ferritine")
+label_ferritine.pack(side=tk.LEFT, padx=5)
+
+entry_ferritine = tk.Entry(frame_ferritine)
+entry_ferritine.pack(side=tk.LEFT, padx=5)
+
+label_ferritine_unit = tk.Label(frame_ferritine, text="µg/L")
+label_ferritine_unit.pack(side=tk.LEFT, padx=5)
+
+bouton_calculer = tk.Button(fenetre, text="Calculer", command=calculer_rapport)
 bouton_calculer.pack(pady=20)
 
 resultat = tk.StringVar()
