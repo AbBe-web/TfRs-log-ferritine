@@ -1,62 +1,95 @@
-import tkinter as tk
-from math import log10
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculateur TfRs/log(ferritine)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input {
+            width: calc(100% - 50px);
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .input-group span {
+            display: inline-block;
+            width: 40px;
+        }
+        .button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculateur TfRs/log(ferritine)</h1>
+        <p>Vous voulez estimer la probabilité de carence martiale ou d'anémie inflammatoire en cas d'anémie avec FS bas et d'inflammation. Vous devez avoir à votre disposition le taux de TfRs en mg/L et de ferritine en µg/L.</p>
+        <div class="input-group">
+            <label for="tfrs">TfRs</label>
+            <input type="number" id="tfrs" placeholder="mg/L">
+            <span>mg/L</span>
+        </div>
+        <div class="input-group">
+            <label for="ferritine">Ferritine</label>
+            <input type="number" id="ferritine" placeholder="µg/L">
+            <span>µg/L</span>
+        </div>
+        <button class="button" onclick="calculerRapport()">Calculer</button>
+        <div class="result" id="result"></div>
+    </div>
 
-def calculer_rapport():
-    try:
-        tfrs = float(entry_tfrs.get())
-        ferritine = float(entry_ferritine.get())
+    <script>
+        function calculerRapport() {
+            const tfrs = parseFloat(document.getElementById('tfrs').value);
+            const ferritine = parseFloat(document.getElementById('ferritine').value);
+            const resultDiv = document.getElementById('result');
 
-        if ferritine <= 0:
-            resultat.set("La ferritine doit être supérieure à 0.")
-            return
+            if (isNaN(tfrs) || isNaN(ferritine) || ferritine <= 0) {
+                resultDiv.innerHTML = "Veuillez entrer des valeurs numériques valides et assurez-vous que la ferritine est supérieure à 0.";
+                return;
+            }
 
-        rapport = tfrs / log10(ferritine)
-        resultat.set(f"Le rapport TfRs/log(ferritine) est : {rapport:.2f}\n\n"
-                     "Un rapport <1 en présence d'une maladie chronique est en faveur d'une anémie inflammatoire. "
-                     "Un rapport <1 est en faveur d'une carence martiale.")
-    except ValueError:
-        resultat.set("Veuillez entrer des valeurs numériques valides.")
-
-# Création de la fenêtre principale
-fenetre = tk.Tk()
-fenetre.title("Calculateur TfRs/log(ferritine)")
-
-# Sous-titre
-sous_titre = tk.Label(fenetre, text="Vous voulez estimer la probabilité de carence martiale ou d'anémie inflammatoire en cas d'anémie avec FS bas et d'inflammation. "
-                                    "Vous devez avoir à votre disposition le taux de TfRs en mg/L et de ferritine en µg/L.")
-sous_titre.pack(pady=10, padx=10)
-
-# Création des widgets
-frame_tfrs = tk.Frame(fenetre)
-frame_tfrs.pack(pady=5)
-
-label_tfrs = tk.Label(frame_tfrs, text="TfRs")
-label_tfrs.pack(side=tk.LEFT, padx=5)
-
-entry_tfrs = tk.Entry(frame_tfrs)
-entry_tfrs.pack(side=tk.LEFT, padx=5)
-
-label_tfrs_unit = tk.Label(frame_tfrs, text="mg/L")
-label_tfrs_unit.pack(side=tk.LEFT, padx=5)
-
-frame_ferritine = tk.Frame(fenetre)
-frame_ferritine.pack(pady=5)
-
-label_ferritine = tk.Label(frame_ferritine, text="Ferritine")
-label_ferritine.pack(side=tk.LEFT, padx=5)
-
-entry_ferritine = tk.Entry(frame_ferritine)
-entry_ferritine.pack(side=tk.LEFT, padx=5)
-
-label_ferritine_unit = tk.Label(frame_ferritine, text="µg/L")
-label_ferritine_unit.pack(side=tk.LEFT, padx=5)
-
-bouton_calculer = tk.Button(fenetre, text="Calculer", command=calculer_rapport)
-bouton_calculer.pack(pady=20)
-
-resultat = tk.StringVar()
-label_resultat = tk.Label(fenetre, textvariable=resultat, wraplength=300, justify="left")
-label_resultat.pack(pady=20)
-
-# Lancement de la boucle principale
-fenetre.mainloop()
+            const rapport = tfrs / Math.log10(ferritine);
+            resultDiv.innerHTML = `Le rapport TfRs/log(ferritine) est : ${rapport.toFixed(2)}<br><br>` +
+                                  "Un rapport <1 en présence d'une maladie chronique est en faveur d'une anémie inflammatoire. " +
+                                  "Un rapport <1 est en faveur d'une carence martiale.";
+        }
+    </script>
+</body>
+</html>
